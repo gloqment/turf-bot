@@ -1,0 +1,1 @@
+worker: python turf_bot.py

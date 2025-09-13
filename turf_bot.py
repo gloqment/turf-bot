@@ -13,7 +13,6 @@ intents.members = True
 intents.guilds = True
 
 bot = commands.Bot(command_prefix="!", intents=intents)
-tree = discord.app_commands.CommandTree(bot)  # eigener CommandTree
 
 events = {}
 last_fight_event = None
@@ -196,7 +195,7 @@ class EinteilungView(discord.ui.View):
 # Commands
 # ===================
 
-@tree.command(name="announce", description="Starte ein Turf-Event")
+@bot.tree.command(name="announce", description="Starte ein Turf-Event")
 async def announce(interaction: discord.Interaction):
     class EventTypeDropdown(discord.ui.Select):
         def __init__(self):
@@ -254,7 +253,7 @@ async def announce(interaction: discord.Interaction):
     await interaction.response.send_message("Bitte Event-Typ auswählen:", view=view, ephemeral=True)
 
 
-@tree.command(name="einteilung", description="Starte die Einteilung für das letzte Fight-Event")
+@bot.tree.command(name="einteilung", description="Starte die Einteilung für das letzte Fight-Event")
 async def einteilung(interaction: discord.Interaction):
     global last_fight_event
     if not last_fight_event or last_fight_event not in events:
@@ -289,7 +288,7 @@ async def einteilung(interaction: discord.Interaction):
 
 @bot.event
 async def on_ready():
-    await tree.sync()
+    await bot.tree.sync()
     print(f"{bot.user} ist online!")
 
 bot.run(os.getenv("DISCORD_TOKEN"))
